@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import About from "./Pages/About";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import PixelArt from "./Components/PixelArt";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/auth" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/draw" element={<PixelArt />} />
       </Routes>
     </div>
   );

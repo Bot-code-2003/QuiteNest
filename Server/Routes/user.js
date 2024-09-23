@@ -1,13 +1,21 @@
 import express from "express";
 import User from "../Models/user.js";
 const router = express.Router();
+import jwt from "jsonwebtoken";
 
 // Signup route
 router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const user = await User.create({ username, email, password });
-    res.status(201).json(user);
+    const token = jwt.sign({ id: user._id, email: user.email }, "secret", {
+      expiresIn: "5h",
+    });
+    console.log(
+      "Successfully came to user route. Heres the generated token: ",
+      token
+    );
+    res.status(201).json({ user: user.username, token: token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

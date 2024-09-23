@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const temp = localStorage.getItem("Profile");
+    const parsedProfile = JSON.parse(temp);
+    setUser(parsedProfile.user);
+    const details = jwtDecode(parsedProfile.token);
+    console.log("details: ", details);
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -22,13 +32,22 @@ const Navbar = () => {
         <button className="hover:underline" onClick={() => navigate("/about")}>
           About
         </button>
+        {/* <button className="hover:underline" onClick={() => navigate("/draw")}>
+          Draw
+        </button> */}
         <button className="hover:underline">Community</button>
-        <button
-          onClick={() => navigate("/auth")}
-          className="px-3 py-2 bg-primaryGreen hover:bg-secondary hover:text-black text-white transition duration-200 ease-in-out"
-        >
-          Login
-        </button>
+        {user.length > 0 ? (
+          <button className="px-3 py-2 bg-primaryGreen hover:bg-secondary hover:text-black text-white transition duration-200 ease-in-out">
+            {user}
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate("/auth")}
+            className="px-3 py-2 bg-primaryGreen hover:bg-secondary hover:text-black text-white transition duration-200 ease-in-out"
+          >
+            Login
+          </button>
+        )}
       </div>
 
       {/* Hamburger menu for mobile */}

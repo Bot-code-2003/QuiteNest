@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { signup } from "../Actions/user";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   // State to hold form data
   const [formData, setFormData] = useState({
     username: "",
@@ -12,7 +18,8 @@ const Signup = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); // Log form data to the console for now
+    dispatch(signup(formData, navigate));
+    // console.log(formData); // Log form data to the console for now
   };
 
   // Handle input changes
