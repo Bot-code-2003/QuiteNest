@@ -1,6 +1,129 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body {
-  /* background-image: url("./assets/ooorganize.svg"); */
+
+.highlight-creative {
+  position: relative;
+  display: inline-block;
+  padding: 8px 12px;
+  font-family: "Playfair Display", serif; /* A vintage bold font */
+  font-weight: 500;
+  font-size: 1em;
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    #4ef3ff,
+    #ae3afc
+  ); /* Bright vintage gradient */
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4),
+    /* Shadow to lift it up */ inset 0 0 10px rgba(255, 255, 255, 0.2); /* Subtle inner glow */
+
+  /* Border with a dashed look for a retro signboard vibe */
+  border: 3px dashed #ffffff;
+  transition: all 0.4s ease;
+}
+
+.highlight-creative:hover {
+  background: linear-gradient(
+    135deg,
+    #12c2e9,
+    #c471ed,
+    #f64f59
+  ); /* Colorful neon effect on hover */
+  color: #fff;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5),
+    inset 0 0 15px rgba(255, 255, 255, 0.3);
+
+  border-color: #ff6b6b; /* More vibrant border on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.primary-button-creative {
+  position: relative;
+  display: inline-block;
+  padding: 12px 30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(45deg, #06beb6, #48b1bf); /* Teal gradient */
+  border: none;
+  border-radius: 0; /* No rounded corners for a modern, edgy look */
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.primary-button-creative::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 0, 0.6); /* Neon yellow hover effect */
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+  z-index: 1;
+}
+
+.primary-button-creative:hover::before {
+  transform: translateY(0); /* Neon yellow slides in on hover */
+}
+
+.primary-button-creative:hover {
+  color: #000;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.secondary-button-creative {
+  position: relative;
+  display: inline-block;
+  padding: 12px 30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #ffffff;
+  border: 3px solid rgb(6, 190, 181);
+  color: #06beb6;
+  background: linear-gradient(
+    45deg,
+    rgba(6, 190, 181, 0),
+    #48b1bf00
+  ); /* Teal gradient */
+  border-radius: 0; /* No rounded corners for a modern, edgy look */
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.secondary-button-creative::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 0, 0.6); /* Neon yellow hover effect */
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+  z-index: 1;
+}
+
+.secondary-button-creative:hover::before {
+  transform: translateY(0); /* Neon yellow slides in on hover */
+}
+
+.secondary-button-creative:hover {
+  color: #000;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
 }

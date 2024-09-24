@@ -195,7 +195,10 @@ const PixelArt = () => {
               }
             />
           </label>
-          <button className="p-2" onClick={handleCreateCanvas}>
+          <button
+            className="p-2 hover:bg-gray-200"
+            onClick={handleCreateCanvas}
+          >
             Create Canvas
           </button>
         </div>
@@ -327,9 +330,6 @@ const PixelArt = () => {
         }
         button {
           transition: background-color 0.2s;
-        }
-        button:hover {
-          background-color: #ddd;
         }
         .instructions {
           max-width: 400px;

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { signup } from "../Actions/user";
 import { useNavigate } from "react-router-dom";
+import { signup } from "../Actions/user";
+import Button from "../Components/Button"; // Using the same Button component
 
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   // State to hold form data
   const [formData, setFormData] = useState({
     username: "",
@@ -19,7 +20,6 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(signup(formData, navigate));
-    // console.log(formData); // Log form data to the console for now
   };
 
   // Handle input changes
@@ -32,21 +32,23 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
-      {/* Signup Box (No Rounded Corners) */}
-      <div className="w-full max-w-lg bg-white border border-gray-300 shadow-xl p-10">
-        {/* Header */}
-        <h2 className="text-3xl font-poppins text-center font-bold text-primaryGreen mb-10 tracking-wide">
-          Create Your Account
-        </h2>
+    <div className="flex justify-center items-center min-h-screen bg-custom-gradient p-4">
+      {/* Signup Box */}
+      <div className="w-full max-w-md bg-white/80 border border-gray-300 rounded-lg shadow-lg p-8 relative">
+        {/* Header with glowing text */}
+        <div className="flex justify-center items-center">
+          <h2 className="text-4xl font-extrabold text-purple-900 font-['Courier_New'] mb-4 glow-text">
+            Create Your Account
+          </h2>
+        </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Username Input */}
-          <div className="relative">
+          <div>
             <label
               htmlFor="username"
-              className="block text-sm font-lora text-gray-700 mb-2 uppercase tracking-wider"
+              className="block text-md font-['Comic_Sans_MS'] text-purple-700"
             >
               Username
             </label>
@@ -55,7 +57,7 @@ const Signup = () => {
               id="username"
               name="username"
               required
-              className="w-full p-4 border border-gray-400 focus:border-primaryGreen focus:ring-primaryGreen transition-colors ease-in-out bg-gray-50 focus:bg-white"
+              className="w-full mt-1 p-2 bg-gray-200 border border-gray-400 rounded-md focus:outline-none focus:border-purple-500"
               placeholder="Choose a username"
               onChange={handleChange}
               value={formData.username}
@@ -63,10 +65,10 @@ const Signup = () => {
           </div>
 
           {/* Email Input */}
-          <div className="relative">
+          <div>
             <label
               htmlFor="email"
-              className="block text-sm font-lora text-gray-700 mb-2 uppercase tracking-wider"
+              className="block text-md font-['Comic_Sans_MS'] text-purple-700"
             >
               Email Address
             </label>
@@ -75,7 +77,7 @@ const Signup = () => {
               id="email"
               name="email"
               required
-              className="w-full p-4 border border-gray-400 focus:border-primaryGreen focus:ring-primaryGreen transition-colors ease-in-out bg-gray-50 focus:bg-white"
+              className="w-full mt-1 p-2 bg-gray-200 border border-gray-400 rounded-md focus:outline-none focus:border-purple-500"
               placeholder="Enter your email"
               onChange={handleChange}
               value={formData.email}
@@ -83,10 +85,10 @@ const Signup = () => {
           </div>
 
           {/* Password Input */}
-          <div className="relative">
+          <div>
             <label
               htmlFor="password"
-              className="block text-sm font-lora text-gray-700 mb-2 uppercase tracking-wider"
+              className="block text-md font-['Comic_Sans_MS'] text-purple-700"
             >
               Password
             </label>
@@ -95,7 +97,7 @@ const Signup = () => {
               id="password"
               name="password"
               required
-              className="w-full p-4 border border-gray-400 focus:border-primaryGreen focus:ring-primaryGreen transition-colors ease-in-out bg-gray-50 focus:bg-white"
+              className="w-full mt-1 p-2 bg-gray-200 border border-gray-400 rounded-md focus:outline-none focus:border-purple-500"
               placeholder="Create a password"
               onChange={handleChange}
               value={formData.password}
@@ -103,10 +105,10 @@ const Signup = () => {
           </div>
 
           {/* Confirm Password Input */}
-          <div className="relative">
+          <div>
             <label
               htmlFor="confirm-password"
-              className="block text-sm font-lora text-gray-700 mb-2 uppercase tracking-wider"
+              className="block text-md font-['Comic_Sans_MS'] text-purple-700"
             >
               Confirm Password
             </label>
@@ -115,7 +117,7 @@ const Signup = () => {
               id="confirm-password"
               name="confirmPassword"
               required
-              className="w-full p-4 border border-gray-400 focus:border-primaryGreen focus:ring-primaryGreen transition-colors ease-in-out bg-gray-50 focus:bg-white"
+              className="w-full mt-1 p-2 bg-gray-200 border border-gray-400 rounded-md focus:outline-none focus:border-purple-500"
               placeholder="Confirm your password"
               onChange={handleChange}
               value={formData.confirmPassword}
@@ -123,27 +125,40 @@ const Signup = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="pt-4">
-            <button
-              type="submit"
-              className="w-full px-6 py-4 bg-primaryGreen text-white font-bold uppercase tracking-widest shadow-md hover:bg-secondaryGreen hover:shadow-lg transition duration-300 ease-in-out"
-            >
-              Sign Up
-            </button>
+          <div className="pt-4 flex justify-center">
+            <Button type="submit">Sign Up</Button>
           </div>
         </form>
 
         {/* Divider */}
         <div className="flex justify-center items-center mt-8">
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-purple-600 font-['Verdana']">
             Already have an account?
           </span>
           <a
             href="/auth"
-            className="text-primaryGreen hover:underline ml-2 text-sm font-medium"
+            className="text-purple-900 hover:underline ml-1 text-sm font-medium font-['Comic_Sans_MS']"
           >
             Sign In
           </a>
+        </div>
+
+        {/* Glowing sticker bottom corner */}
+        <div className="absolute bottom-0 right-0 p-4">
+          <svg
+            className="w-12 h-12 text-pink-400 glow"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 12l7-7 7 7M5 12l7 7 7-7"
+            />
+          </svg>
         </div>
       </div>
     </div>

@@ -1,22 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Ensure it's imported correctly
+import Button from "./Button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const menuRef = useRef(null); // Reference for handling outside click
 
   useEffect(() => {
     const temp = localStorage.getItem("Profile");
-    const parsedProfile = JSON.parse(temp);
-    setUser(parsedProfile.user);
-    const details = jwtDecode(parsedProfile.token);
-    console.log("details: ", details);
+    if (temp) {
+      const parsedProfile = JSON.parse(temp);
+      const decodedToken = jwtDecode(parsedProfile.token);
+
+      // Auto logout when the token expires
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        handleLogout();
+      } else {
+        setUser(parsedProfile.user);
+      }
+    }
+  }, [location]);
+
+  useEffect(() => {
+    // Handle click outside menuRef to close menu
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleUserMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("Profile");
+    setUser(""); // Clear the user state
+    setMenuOpen(false);
+    window.location.refresh();
   };
 
   return (
@@ -32,22 +68,57 @@ const Navbar = () => {
         <button className="hover:underline" onClick={() => navigate("/about")}>
           About
         </button>
-        {/* <button className="hover:underline" onClick={() => navigate("/draw")}>
-          Draw
-        </button> */}
-        <button className="hover:underline">Community</button>
-        {user.length > 0 ? (
-          <button className="px-3 py-2 bg-primaryGreen hover:bg-secondary hover:text-black text-white transition duration-200 ease-in-out">
-            {user}
-          </button>
-        ) : (
-          <button
-            onClick={() => navigate("/auth")}
-            className="px-3 py-2 bg-primaryGreen hover:bg-secondary hover:text-black text-white transition duration-200 ease-in-out"
-          >
-            Login
-          </button>
-        )}
+        <button className="hover:underline">Houses</button>
+
+        <div className="relative" ref={menuRef}>
+          {user ? (
+            <button
+              className="primary-button-creative"
+              onClick={toggleUserMenu}
+            >
+              {user}
+            </button>
+          ) : (
+            <button
+              className="primary-button-creative"
+              onClick={() => navigate("/auth")}
+            >
+              Login
+            </button>
+          )}
+
+          {/* User menu dropdown */}
+          {menuOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
+              <ul className="py-1">
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    navigate("/house");
+                    setMenuOpen(false);
+                  }}
+                >
+                  My House
+                </li>
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    navigate("/saved");
+                    setMenuOpen(false);
+                  }}
+                >
+                  Saved
+                </li>
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Hamburger menu for mobile */}
@@ -99,19 +170,46 @@ const Navbar = () => {
             </li>
             <li>
               <button className="hover:underline" onClick={() => toggleMenu()}>
-                Community
+                Houses
               </button>
             </li>
             <li>
-              <button
-                onClick={() => {
-                  navigate("/auth");
-                  toggleMenu();
-                }}
-                className="px-3 py-2 bg-primaryGreen hover:bg-secondary hover:text-black text-white transition duration-200 ease-in-out"
-              >
-                Login
-              </button>
+              {user ? (
+                <div className="flex flex-col items-center gap-4">
+                  <button
+                    className="primary-button-creative shadow-none"
+                    onClick={toggleUserMenu}
+                  >
+                    {user}
+                  </button>
+                  {menuOpen && (
+                    <ul className="flex flex-col items-center mt-2 bg-white shadow-lg rounded-lg p-2">
+                      <li
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          navigate("/saved");
+                          setMenuOpen(false);
+                        }}
+                      >
+                        Saved
+                      </li>
+                      <li
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              ) : (
+                <button
+                  className="primary-button-creative"
+                  onClick={() => navigate("/auth")}
+                >
+                  Login
+                </button>
+              )}
             </li>
           </ul>
         </div>

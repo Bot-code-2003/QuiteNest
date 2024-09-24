@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./Components/Navbar";
 import Homepage from "./Pages/Homepage";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import About from "./Pages/About";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import PixelArt from "./Components/PixelArt";
+import House from "./Pages/House";
 
 const App = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
-    <div className="px-2 sm:px-10 font-lora">
+    <div className="font-['Courier_New'] font-semiboldt">
       <Navbar />
       <Routes>
         <Route path="/" element={<Homepage />} />
@@ -17,6 +23,7 @@ const App = () => {
         <Route path="/auth" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/draw" element={<PixelArt />} />
+        <Route path="/house" element={<House />} />
       </Routes>
     </div>
   );
